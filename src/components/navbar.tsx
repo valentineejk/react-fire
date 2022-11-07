@@ -71,7 +71,6 @@ const signUserOut = async () => {
                     <img className="flex-shrink-0 object-cover w-8 h-8 rounded-full sm:mx-4 ring-4 ring-gray-300" src={user?.photoURL  || ""} alt=""/>
 
                     </>
-                  
 )
                     }
                 </div>
