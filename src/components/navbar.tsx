@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, provider } from '../config/firebase'
+import { auth } from '../config/firebase'
 import { signOut } from 'firebase/auth';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 
 export const Navbar = (props: Props) => {
-    const [user, loading, error] = useAuthState(auth);
+    const [user] = useAuthState(auth);
 const signUserOut = async () => {
     await signOut(auth)
 }
@@ -33,7 +33,7 @@ const signUserOut = async () => {
 
 
 
-   <nav x-data="{ isOpen: false }"  className="border-b dark:border-gray-700">
+   <nav x-data="{ isOpen: false }"  className="border-b dark:border-gray-700  ">
         <div className="container px-6 py-4 mx-auto lg:flex lg:justify-between lg:items-center">
             <div className="flex items-center justify-between">
                 <div>
@@ -56,12 +56,14 @@ const signUserOut = async () => {
             <div x-cloakClassName="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white shadow-md lg:bg-transparent lg:dark:bg-transparent lg:shadow-none dark:bg-gray-900 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center">
                 <div className="flex flex-row space-y-8 space-x-8 lg:flex-row lg:items-center lg:space-y-0 lg:-px-8">
                     <Link className="block font-medium text-gray-700 dark:text-gray-200 lg:mx-8 hover:text-gray-900 dark:hover:text-gray-400 hover:underline" to="/">Home</Link>
-                    <Link to="/login">
+            {  user == null &&      
+                  (  <Link to="/login">
                     <button className="flex items-center justify-center px-6 py-2.5 text-sm font-medium tracking-wide text-center text-white capitalize transition-colors duration-300 transform bg-gray-700 rounded-lg hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
                         Login
                     </button>
-
-                      </Link>
+                      </Link>)
+                      
+                      }
                  
                    {  user &&
              (   <>
