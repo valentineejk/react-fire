@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from '../config/firebase'
 import { signOut } from 'firebase/auth';
+import { useToggle } from '../hooks/useToggle';
 
 interface Props {
     
@@ -11,29 +12,20 @@ interface Props {
 
 export const Navbar = (props: Props) => {
     const [user] = useAuthState(auth);
+
+const [isVisible, toggle] = useToggle();
+
+// const toggleBtn = () => {
+//     return toggle?
+// }
+
 const signUserOut = async () => {
     await signOut(auth)
 }
     return (
 
 <div className="bg-white dark:bg-gray-900">
-
-{/* <nav className="bg-white shadow dark:bg-gray-800">
-    <div className="container flex items-center justify-center p-6 mx-auto text-gray-600 capitalize dark:text-gray-300">
-        <Link to="/" className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-blue-500 mx-1.5 sm:mx-6">home</Link>
-        <Link to="/login" className="border-b-2 border-transparent hover:text-gray-800 transition-colors duration-300 transform dark:hover:text-gray-200 hover:border-blue-500 mx-1.5 sm:mx-6">login</Link>
-   <div className="flex justify-center -mt-16 md:justify-end">
-    </div>
-            <img src={user?.photoURL || ""}  width="100" height="100" className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full dark:border-blue-400" alt="Testimonial avatar" />
-
-    </div>
-</nav> */}
-
-
-
-
-
-   <nav x-data="{ isOpen: false }"  className="border-b dark:border-gray-700  ">
+   <nav   className="border-b dark:border-gray-700  ">
         <div className="container px-6 py-4 mx-auto lg:flex lg:justify-between lg:items-center">
             <div className="flex items-center justify-between">
                 <div>
@@ -41,19 +33,19 @@ const signUserOut = async () => {
                 </div>
 
                 <div className="flex lg:hidden">
-                    <button x-cloakClick="isOpen = !isOpen" type="button" className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400" aria-label="toggle menu">
-                        <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <div  className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400" aria-label="toggle menu">
+                      {  isVisible ? <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
                         </svg>
-                
-                        <svg x-show="isOpen" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+                :
+                        <svg x-show="isOpen" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>}
+                    </div>
                 </div>
             </div>
 
-            <div x-cloakClassName="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white shadow-md lg:bg-transparent lg:dark:bg-transparent lg:shadow-none dark:bg-gray-900 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center">
+            <div  className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white shadow-md lg:bg-transparent lg:dark:bg-transparent lg:shadow-none dark:bg-gray-900 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center">
                 <div className="flex flex-row space-y-8 space-x-8 lg:flex-row lg:items-center lg:space-y-0 lg:-px-8">
                     <Link className="block font-medium text-gray-700 dark:text-gray-200 lg:mx-8 hover:text-gray-900 dark:hover:text-gray-400 hover:underline" to="/">Home</Link>
             {  user == null &&      

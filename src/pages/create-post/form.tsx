@@ -2,36 +2,46 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as  yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup"
+import { addDoc, collection } from 'firebase/firestore';
+import { auth, db } from '../../config/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     title: string,
-    description: string,
+    desc: string,
 }
 
 export const Form = () => {
 
+const [user, ] = useAuthState(auth);
+const navigate = useNavigate();
 const schema = yup.object().shape({
     title: yup.string().required("add a title"),
-    description: yup.string().required("add decription")
+    desc: yup.string().required("add decription")
 })
 
+const postsRef = collection(db, "posts")
 
 const {register, handleSubmit, formState: {errors}}= useForm<Props>({
     resolver: yupResolver(schema),
 })
 
 
-const createPost = (data: Props) =>{
-console.log(data);
-
+const createPost = async (data: Props) =>{
+await addDoc(postsRef, {
+    ...data,
+    username: user?.displayName,
+    userId: user?.uid,
+})
+navigate("/");
 }
     return (
-        <div>
+        <div  >
 
     <form onSubmit={handleSubmit(createPost)}>
         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-1">
             <div>
-                <label className="text-gray-700 dark:text-gray-200" htmlFor="username">Title</label>
                 <input
                  id="title" 
                  {...register("title") }
@@ -65,15 +75,14 @@ console.log(data);
             </div>
 
             <div>
-                <label className="text-gray-700 dark:text-gray-200" htmlFor="emailAddress">Description</label>
                 <textarea 
                 id="emailAddress"
                 placeholder='Description'
-                {...register("description")}
+                {...register("desc")}
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"/>
 
 {/* errors */}
-{errors?.description &&(<div className="w-full text-white bg-yellow-400 mt-6">
+{errors?.desc &&(<div className="w-full text-white bg-yellow-400 mt-6">
     <div className="container flex items-center justify-between px-6 py-4 mx-auto">
         <div className="flex">
             <svg viewBox="0 0 40 40" className="w-6 h-6 fill-current">
@@ -81,7 +90,7 @@ console.log(data);
                 </path>
             </svg>
 
-            <p className="mx-3">{    errors?.description?.message}</p>
+            <p className="mx-3">{    errors?.desc?.message}</p>
         </div>
 
         <button className="p-1 transition-colors duration-300 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none">

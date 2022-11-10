@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuthState } from "react-firebase-hooks/auth";
+import { Link } from 'react-router-dom';
 import { auth } from '../config/firebase'
 
 interface Props {
@@ -39,11 +40,14 @@ export const Main = (props: Props) => {
 
 {/* add */}
 {user && (<div className='py-6'>
-  <button className=" px-6 py-2.5 text-sm font-medium tracking-wide text-center text-white capitalize transition-colors duration-300 transform bg-gray-700 rounded-lg hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+    <Link to="/create">  
+    <button className=" px-6 py-2.5 text-sm font-medium tracking-wide text-center text-white capitalize transition-colors duration-300 transform bg-gray-700 rounded-lg hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
                       <h1 className='text-xl font-extrabold'>
  +
                         </h1> 
                     </button>
+    </Link>
+
                     </div>
 )}
 
