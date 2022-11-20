@@ -17,7 +17,6 @@ const navigate = useNavigate();
 const signInWithGoogle = async () =>  {
 const response = await signInWithPopup(auth, provider);
 console.log(response);
-
 navigate("/");
 }
 
@@ -30,14 +29,14 @@ navigate("/");
 
 
 
-            <section className="bg-white dark:bg-gray-900">
+            <section >
 
     <div className="container flex flex-col items-center justify-center min-h-screen px-6 mx-auto">
 
 
                 <button 
                 onClick={signInWithGoogle} 
-                className="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                className="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg  hover:bg-gray-50 ">
                     <svg className="w-6 h-6 mx-2" viewBox="0 0 40 40">
                         <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#FFC107" />
                         <path d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z" fill="#FF3D00" />
@@ -48,17 +47,14 @@ navigate("/");
                     <span className="mx-2">Sign in with Google</span>
                 </button>
 
-                <div className="w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+
+
+                {/* <div className="w-full max-w-md px-8 py-4 mt-16 bg-black rounded-lg shadow-lg ">
  
 
-    <h2 className="mt-2 text-2xl font-semibold text-gray-800 dark:text-white md:mt-0 md:text-3xl">{user?.displayName}</h2>
+    <h2 className="mt-2 text-2xl font-semibold text-gray-800 md:mt-0 md:text-3xl">{user?.displayName}</h2>
 
-    {/* <p className="mt-2 text-gray-600 dark:text-gray-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae dolores deserunt ea doloremque natus error, rerum quas odio quaerat nam ex commodi hic, suscipit in a veritatis pariatur minus consequuntur!</p> */}
-
-    {/* <div className="flex justify-end mt-4"> */}
-        {/* <a href="#" className="text-xl font-medium text-blue-600 dark:text-blue-300" tabIndex={0} role="link">John Doe</a>
-    </div> */}
-</div>
+</div> */}
 
 
 

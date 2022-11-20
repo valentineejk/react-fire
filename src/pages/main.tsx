@@ -1,14 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from 'react-router-dom';
-import { auth } from '../config/firebase'
+import { auth, db } from '../config/firebase'
+import { getDocs, collection } from 'firebase/firestore';
+import { Post } from '../components/posts';
 
-interface Props {
-    
+export interface Post {
+    id: string;
+    userId: String;
+    title: string;
+    desc: string;
+    username: string;
+
 }
 
-export const Main = (props: Props) => {
-        const [user] = useAuthState(auth);
+export const Main = () => {
+    const postsRef = collection(db, "posts")
+    const [posts, setPosts] = useState<Post[] | null>(null)
+    const [user] = useAuthState(auth);
+    const getPosts = async () => {
+const data = await getDocs(postsRef);
+setPosts(
+    data.docs.map((doc)=> ({
+        ...doc.data(),
+        id: doc.id
+    })) as Post[]
+    );
+
+    }
+
+    useEffect(() => {
+     getPosts();
+    }, [])
 
     return (
 <div>
@@ -22,8 +45,6 @@ export const Main = (props: Props) => {
     <div className="flex justify-center -mt-16 md:justify-end">
         <img className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full dark:border-blue-400" alt="Testimonial avatar" src={user?.photoURL || ""}/>
     </div>
-
-    
     </>
 )}
     <h2 className="mt-2 text-2xl font-semibold text-gray-800 dark:text-white md:mt-0 md:text-3xl">{user?.displayName}</h2>
@@ -34,7 +55,6 @@ export const Main = (props: Props) => {
         <p className="text-xl font-medium text-blue-600 dark:text-blue-300" tabIndex={0} role="link">{user?.isAnonymous}</p>
     </div>
 </div>
-
         </div>
 
 
@@ -52,29 +72,12 @@ export const Main = (props: Props) => {
 )}
 
 {/* post */}
+{
+    posts?.map((post)=>(
+<Post post={post}  />
+    ))
+}
 
-{/* <div className='flex justify-center m-5'>
-                    <div className=" max-w-2xl px-8 py-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
-    <div className="flex items-center justify-between">
-        <span className="text-sm font-light text-gray-600 dark:text-gray-400">Mar 10, 2019</span>
-        <p className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500" tabIndex={0} role="button">Design</p>
-    </div>
-
-    <div className="mt-2">
-        <p className="text-2xl text-left font-bold text-gray-700 dark:text-white hover:text-gray-600 dark:hover:text-gray-200 hover:underline" tabIndex={0} role="link">Accessibility tools for designers and developers</p>
-        <p className="mt-2 text-gray-600 dark:text-gray-300 text-left ">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora expedita dicta totam aspernatur doloremque. Excepturi iste iusto eos enim reprehenderit nisi, accusamus delectus nihil quis facere in modi ratione libero!</p>
-    </div>
-
-    <div className="flex items-center justify-between mt-4">
-        <p className="text-blue-600 dark:text-blue-400 hover:underline" tabIndex={0} role="link">Read more</p>
-
-        <div className="flex items-center">
-            <img className="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=40&q=80" alt="avatar"/>
-            <p className="font-bold text-gray-700 cursor-pointer dark:text-gray-200" tabIndex={0} role="link">Khatab wedaa</p>
-        </div>
-    </div>
-</div>
-</div> */}
 
 
         </div>

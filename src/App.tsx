@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Main from './pages/main';
 import Login from './pages/login';
 import Navbar from './components/navbar';
 import { Create } from './pages/create-post/create';
+import Main from './pages/main';
 
 function App() {
   return (
